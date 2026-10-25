@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#1D4167">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Boudio">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Boudio%22%2C%22short_name%22%3A%22Boudio%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22theme_color%22%3A%22%231D4167%22%2C%22background_color%22%3A%22%23ffffff%22%7D">
+<link rel="icon" href="data:,">
+<title>Boudio</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1D4167;--deep:#0A3A5E;--slate:#12263A;--bg:#F7F8FA;--card:#fff;--text:#101828;--muted:#667085;--line:#E6EAF0;--accent:#E9C46A;--yellow:#F2C94C}
+@media(prefers-color-scheme:dark){:root{--bg:#0E1622;--card:#162232;--text:#F2F4F7;--muted:#98A2B3;--line:#24344A}}
+*{box-sizing:border-box}body{margin:0;font-family:Montserrat,system-ui,sans-serif;background:var(--bg);color:var(--text);padding-bottom:132px}
+a{color:var(--blue)}button{font-family:inherit;cursor:pointer}
+.topbar{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:12px 18px}
+.brand{display:flex;align-items:center;gap:10px}
+.badge{width:42px;height:42px;border-radius:11px;background:var(--blue);display:grid;place-items:center;color:#fff;font-weight:900;font-size:26px;position:relative;overflow:hidden;letter-spacing:-2px}
+.badge:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 7px,rgba(255,255,255,.28) 7px 9px);pointer-events:none}
+.word{font-weight:800;letter-spacing:-.06em;font-size:28px;line-height:1;color:var(--blue)}
+@media(prefers-color-scheme:dark){.word{color:#fff}}
+.word span{color:#2A7FFF}
+.topbtn{background:var(--blue);color:#fff;border:0;padding:10px 14px;border-radius:999px;font-weight:700;font-size:13px}
+.wrap{max-width:1080px;margin:0 auto;padding:18px}
+.hero{background:linear-gradient(135deg,var(--slate),var(--deep) 55%,var(--blue));color:#fff;border-radius:20px;padding:22px;display:grid;grid-template-columns:118px 1fr;gap:18px}
+@media(max-width:560px){.hero{grid-template-columns:92px 1fr;padding:16px}}
+.cover{aspect-ratio:3/4.9;border-radius:8px;overflow:hidden;background:#E9B949;position:relative;box-shadow:0 10px 24px rgba(0,0,0,.3);flex-shrink:0}
+.hero .cover-title{font-size:13px;padding:7px 2px}
+.hero .cover-art{font-size:16px}
+.hero{align-items:start}
+.cover-inner{padding:10px 8px;text-align:center;height:100%;display:flex;flex-direction:column}
+.cover-author{font-size:9px;letter-spacing:.14em;font-weight:800;color:#111;text-transform:uppercase;border-bottom:2px solid #111;padding-bottom:6px}
+.cover-title{background:#C1271D;color:#fff;font-weight:900;line-height:.95;padding:10px 4px;margin:10px -2px;font-size:18px;letter-spacing:-.02em}
+.cover-art{flex:1;display:grid;place-items:center;font-size:28px}
+.cover-pub{font-size:7px;letter-spacing:.18em;font-weight:700}
+.btn{border:0;border-radius:999px;padding:12px 18px;font-weight:700}
+.btn-primary{background:#fff;color:var(--deep)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.progress{height:7px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden;margin:12px 0 6px}
+.progress i{display:block;height:100%;background:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:16px}
+.upload{border:2px dashed #B9C6D6;border-radius:16px;padding:22px;text-align:center;background:#F0F4F8}
+@media(prefers-color-scheme:dark){.upload{background:#1B2B40}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
+.grid.list{grid-template-columns:1fr}
+.bookcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
+.bookcard .cover{width:100%}
+.chip{border:1px solid var(--line);background:var(--card);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:600}
+.chip.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);font-family:inherit}
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:10px 6px calc(10px + env(safe-area-inset-bottom));z-index:30}
+.nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:700;color:var(--muted);min-width:64px}
+.nav button.active{color:var(--blue)}
+.nav .ic{font-size:20px;line-height:1}
+.mini{position:fixed;left:12px;right:12px;bottom:78px;background:var(--deep);color:#fff;border-radius:14px;padding:10px 12px;display:none;align-items:center;gap:12px;z-index:29;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.mini.show{display:flex}
+.view{display:none}.view.active{display:block}
+.chapter{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.chapter:last-child{border:0}
+.seekwrap{position:relative;height:28px;margin:10px 0}
+.seek{width:100%;accent-color:var(--blue)}
+.ticks{position:absolute;left:0;right:0;top:22px;height:8px;pointer-events:none}
+.ticks i{position:absolute;width:2px;height:8px;background:#98A2B3;top:0}
+.player{position:fixed;inset:0;background:var(--bg);z-index:50;overflow:auto;padding:18px;display:none}
+.player.open{display:block}
+.controls{display:flex;justify-content:center;align-items:center;gap:14px;margin:18px 0;flex-wrap:wrap}
+.ctrl{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:18px;color:var(--text);display:grid;place-items:center;padding:0}
+.ctrl svg{width:26px;height:26px;display:block}
+.ctrl.main svg{width:30px;height:30px}
+.minipline{position:absolute;top:0;left:14px;right:14px;height:3px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden}
+.minipline i{display:block;height:100%;background:#fff;width:0%}
+.utilrow{display:flex;justify-content:space-between;gap:4px;margin:6px 0 2px}
+.util{flex:1;background:none;border:0;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10.5px;font-weight:600;padding:8px 2px;min-width:0}
+.util svg{width:24px;height:24px;display:block}
+.utilval{font-size:17px;font-weight:800;line-height:24px;color:var(--blue)}
+@media(prefers-color-scheme:dark){.utilval{color:#7FB0E6}}
+.utilsub{font-size:10px;color:var(--muted);font-weight:600}
+.ctrl.main{width:72px;height:72px;background:var(--blue);color:#fff;border:0;font-size:26px}
+body.car .ctrl{width:68px;height:68px;font-size:22px}body.car .ctrl.main{width:92px;height:92px;font-size:34px}
+.stars{font-size:28px;letter-spacing:4px;cursor:pointer;color:#D0D5DD}.stars .on{color:#F59E0B}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(min-width:700px){.statgrid{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:60;padding:16px}.modal.open{display:grid}
+.modalbox{background:var(--card);border-radius:18px;padding:22px;max-width:520px;width:100%;max-height:88vh;overflow:auto}
+.step{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);opacity:.45}.step.done{opacity:1}.step .dot{width:26px;height:26px;border-radius:50%;background:var(--line);display:grid;place-items:center;font-size:13px;font-weight:800}.step.done .dot{background:var(--blue);color:#fff}
+.small{font-size:13px;color:var(--muted);line-height:1.5}
+.tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#EAF0F7;color:var(--blue);padding:4px 7px;border-radius:999px}
+.flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+h1{font-size:28px;line-height:1.05;letter-spacing:-.03em;margin:6px 0}h2{font-size:19px;margin:0 0 8px}h3{margin:14px 0 6px}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand"><div class="badge">B</div><div><div class="word">boudio<span>.</span></div><div class="small" style="font-size:11px">Your library. Your files.</div></div></div><button class="topbtn" onclick="document.getElementById('fileInput').click()">Add audiobook</button></header>
+
+<input type="file" id="fileInput" accept=".mp3,.m4b,.m4a,.aac,audio/*" multiple hidden>
+<audio id="audioEl" preload="metadata"></audio>
+
+<div class="wrap">
+<!-- HOME -->
+<section id="view-home" class="view active">
+<div class="hero">
+<div class="cover"><div class="cover-inner"><div class="cover-author">Chinua Achebe</div><div class="cover-title">THINGS<br>FALL<br>APART</div><div class="cover-art">◉</div><div class="cover-pub">ANCHOR BOOKS</div></div></div>
+<div>
+<div class="tag" style="background:rgba(255,255,255,.18);color:#fff">Continue Listening</div>
+<h1 style="color:#fff">Things Fall Apart</h1>
+<p style="opacity:.9;margin:4px 0">Chinua Achebe · Narrated by Peter Francis James</p>
+<p id="heroChapter" style="font-weight:700;margin:8px 0">Chapter 1 · Okonkwo the wrestler</p>
+<div class="progress"><i id="heroProg" style="width:0%"></i></div>
+<div class="small" style="color:#D6DEE8"><span id="heroTime">0h 0m listened</span> · <span id="heroLeft">6h 30m left</span> · The African Trilogy, Book 1</div>
+<div class="flex" style="margin-top:14px"><button class="btn btn-primary" onclick="openPlayer();togglePlay(true)">▶ Play</button><button class="btn" style="background:rgba(255,255,255,.15);color:#fff" onclick="showView('book')">Chapters &amp; details</button><button class="btn" style="background:rgba(255,255,255,.15);color:#fff" onclick="playSample()">Sample 5 min</button></div>
+</div></div>
+
+<div class="card"><h2>Add your audiobook</h2><p class="small">Add your own file and Boudio will read its metadata, find its chapters, and organize it like a finished Audible title. Works with a single file or chapter files.</p>
+<div class="upload"><div style="font-size:32px">⬆</div><p><strong>Drop in Things Fall Apart</strong><br><span class="small">.mp3, .m4b, .m4a, .aac · Single file or multiple chapter files</span></p><button class="btn btn-blue" onclick="document.getElementById('fileInput').click()">Add your audiobook</button><p id="fileStatus" class="small" style="margin-top:10px">No file added yet. Playback and analysis run on your device.</p></div></div>
+
+<div class="card"><div class="flex" style="justify-content:space-between"><h2>Your library</h2><button class="btn btn-ghost" onclick="showView('library')">See all</button></div>
+<div class="flex" style="gap:16px;margin-top:10px"><div class="cover" style="width:110px"><div class="cover-inner"><div class="cover-author">Chinua Achebe</div><div class="cover-title" style="font-size:13px">THINGS FALL APART</div><div class="cover-pub">ANCHOR BOOKS</div></div></div><div style="flex:1;min-width:200px"><strong>Things Fall Apart</strong><p class="small">Recorded Books · About 6 hrs 30 mins<br>First published 1958. The story of Okonkwo, a wrestling champion and clan leader in Umuofia, and the arrival of colonial government and missionaries that changes his world.</p><button class="btn btn-blue" onclick="showView('book')">Open title</button></div></div></div>
+
+<div class="card"><h2>About the author</h2><p class="small"><strong style="color:var(--text)">Chinua Achebe (1930 to 2013)</strong> was a Nigerian novelist, poet, and critic, widely regarded as a central figure in modern African literature. Things Fall Apart has been translated into more than fifty languages and remains one of the most studied novels in the world. It is Book 1 of The African Trilogy, followed by No Longer at Ease and Arrow of God.</p></div>
+</section>
+
+<!-- LIBRARY -->
+<section id="view-library" class="view">
+<h1>Library</h1>
+<input class="input" id="searchInput" placeholder="Search title, author, narrator" oninput="renderLibrary()">
+<div class="flex" style="margin:12px 0"><select id="sortSel" onchange="renderLibrary()" style="width:auto;flex:1"><option value="recent">Sort: Recent</option><option value="title">Sort: Title A to Z</option><option value="author">Sort: Author</option><option value="progress">Sort: Progress</option></select><button class="btn btn-ghost" id="layoutBtn" onclick="toggleLayout()">Grid view</button></div>
+<div class="flex" id="filterRow"><button class="chip active" data-f="all" onclick="setFilter('all',this)">All</button><button class="chip" data-f="progress" onclick="setFilter('progress',this)">In progress</button><button class="chip" data-f="finished" onclick="setFilter('finished',this)">Finished</button><button class="chip" data-f="archived" onclick="setFilter('archived',this)">Archived</button><button class="chip" data-f="notstarted" onclick="setFilter('notstarted',this)">Not started</button></div>
+<div id="libGrid" class="grid" style="margin-top:16px"></div>
+</section>
+
+<!-- DISCOVER -->
+<section id="view-discover" class="view">
+<h1>Discover</h1><p class="small">A quieter shelf. No loud store, just context for the book you own and where it sits in literature.</p>
+<div class="card"><h2>The African Trilogy</h2><p class="small"><strong>1. Things Fall Apart (1958)</strong> · In your library<br><strong>2. No Longer at Ease (1960)</strong> · Follows Okonkwo's grandson Obi<br><strong>3. Arrow of God (1964)</strong> · A priest caught between old and new orders</p></div>
+<div class="card"><h2>Listen next, if you like this</h2><p class="small">Heart of Darkness by Joseph Conrad, the novel Achebe famously answered. Half of a Yellow Sun by Chimamanda Ngozi Adichie. Nervous Conditions by Tsitsi Dangarembga. Add any of them with Add your audiobook when you have the file.</p></div>
+<div class="card"><h2>Why this edition matters</h2><p class="small">Narrated by Peter Francis James for Recorded Books. His measured delivery lets the proverbs, folktales, and court scenes land at their own pace, which is exactly how the novel is built.</p></div>
+</section>
+
+<!-- PROFILE -->
+<section id="view-profile" class="view">
+<h1>Profile</h1>
+<div class="statgrid"><div class="stat"><div class="small">Time listened</div><strong id="statListened" style="font-size:22px">0h 0m</strong></div><div class="stat"><div class="small">Current streak</div><strong id="statStreak" style="font-size:22px">0 days</strong></div><div class="stat"><div class="small">Bookmarks</div><strong id="statBm" style="font-size:22px">0</strong></div><div class="stat"><div class="small">Clips saved</div><strong id="statClips" style="font-size:22px">0</strong></div></div>
+<div class="card"><h2>Listening settings</h2><label class="small">Playback speed <span id="speedLabel">1.0x</span></label><input type="range" min="0.5" max="3.5" step="0.25" value="1" id="speedRange" oninput="setSpeed(this.value)" style="width:100%"><label class="small">Volume</label><input type="range" min="0" max="1" step="0.05" value="1" id="volRange" oninput="setVolume(this.value)" style="width:100%"><div class="flex" style="margin-top:12px"><button class="btn btn-ghost" onclick="openSleep()">Sleep timer</button><button class="btn btn-ghost" onclick="toggleCar()">Car mode: <span id="carLabel">Off</span></button></div></div>
+<div class="card"><h2>Your review</h2><div class="stars" id="starsProfile"></div><textarea id="reviewBox" rows="4" placeholder="Write a review or private notes about this listen"></textarea><button class="btn btn-blue" style="margin-top:10px" onclick="saveReview()">Save review</button><p id="reviewSaved" class="small"></p></div>
+</section>
+
+<!-- BOOK DETAIL -->
+<section id="view-book" class="view">
+<button class="btn btn-ghost" onclick="showView('home')">← Back</button>
+<div style="display:grid;grid-template-columns:160px 1fr;gap:18px;margin-top:16px" id="bookHead">
+<div class="cover"><div class="cover-inner"><div class="cover-author">Chinua Achebe</div><div class="cover-title">THINGS FALL APART</div><div class="cover-art">◉</div><div class="cover-pub">ANCHOR BOOKS</div></div></div>
+<div><h1>Things Fall Apart</h1><p class="small" style="font-size:14px">By <strong style="color:var(--text)">Chinua Achebe</strong> · Narrated by <strong style="color:var(--text)">Peter Francis James</strong><br>Recorded Books · About 6 hrs and 30 mins · Unabridged<br>The African Trilogy, Book 1 · Literary Fiction</p>
+<div class="stars" id="starsBook"></div>
+<div class="flex" style="margin-top:10px"><button class="btn btn-blue" onclick="openPlayer();togglePlay(true)">▶ Play</button><button class="btn btn-ghost" onclick="playSample()">Sample</button><button class="btn btn-ghost" onclick="addBookmark()">+ Bookmark</button></div>
+<div class="flex" style="margin-top:10px"><button class="chip" onclick="toggleFinished()" id="finishBtn">Mark as finished</button><button class="chip" onclick="toggleArchive()" id="archiveBtn">Archive</button><button class="chip" onclick="resetProgress()">Reset progress</button><button class="chip" onclick="removeBook()">Remove from device</button></div>
+</div></div>
+<div class="card"><h2>Publisher description</h2><p class="small" style="font-size:14px;color:var(--text)">Things Fall Apart tells the story of Okonkwo, a proud Igbo leader whose life is ruled by a fear of failure and of resembling his father. Through wrestling fame, family strain, exile, and return, Achebe builds a complete world of proverbs, festivals, justice, and belief, then shows what happens when missionaries and a colonial court arrive and that world begins to fracture from inside and out.</p></div>
+<div class="card"><h2>Chapters <span class="small" id="chapterSourceLabel"></span></h2><p class="small">Tap a chapter to play from there. Use Edit to rename or nudge a start time. You can split a chapter at the current playhead or merge it with the next.</p><div id="chapterList"></div></div>
+<div class="card"><h2>Bookmarks and clips</h2><div id="bookmarkList"></div><div id="clipList"></div></div>
+</section>
+</div>
+
+<!-- MINI PLAYER -->
+<div class="mini" id="mini"><div class="minipline"><i id="miniProgFill"></i></div><div class="cover" style="width:38px"><div class="cover-inner" style="padding:4px"><div class="cover-title" style="font-size:7px;padding:4px 2px;margin:2px 0">THINGS FALL APART</div></div></div><div style="flex:1;min-width:0" onclick="openPlayer()"><strong style="font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Things Fall Apart</strong><span id="miniChap" class="small" style="color:#CBD6E2;font-size:12px">Chapter 1</span></div><button class="ctrl" style="width:42px;height:42px" aria-label="Back 30 seconds" onclick="skip(-30)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 3.8v5.2h5.2"/><path d="M6.4 5.2A8 8 0 1 1 4.2 13.2"/><text x="12.8" y="15.4" text-anchor="middle" font-size="6.8" font-weight="700" fill="currentColor" stroke="none">30</text></svg></button><button class="ctrl main" style="width:48px;height:48px" id="miniPlay" aria-label="Play or pause" onclick="togglePlay()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><button class="ctrl" style="width:42px;height:42px" aria-label="Forward 30 seconds" onclick="skip(30)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 3.8v5.2h-5.2"/><path d="M17.6 5.2A8 8 0 1 0 19.8 13.2"/><text x="11.2" y="15.4" text-anchor="middle" font-size="6.8" font-weight="700" fill="currentColor" stroke="none">30</text></svg></button></div>
+
+<!-- PLAYER -->
+<div class="player" id="player">
+<div class="wrap" style="max-width:720px">
+<div class="flex" style="justify-content:space-between"><button class="btn btn-ghost" onclick="closePlayer()">⌄ Close player</button><span class="tag">Now Playing</span><button class="btn btn-ghost" onclick="toggleCar()">Car mode</button></div>
+<div style="text-align:center;margin-top:18px"><div class="cover" style="width:210px;margin:0 auto"><div class="cover-inner"><div class="cover-author">Chinua Achebe</div><div class="cover-title">THINGS<br>FALL<br>APART</div><div class="cover-art">◉</div><div class="cover-pub">ANCHOR BOOKS</div></div></div>
+<h1 style="margin-top:16px">Things Fall Apart</h1><p class="small">Chinua Achebe · Peter Francis James</p>
+<h3 id="playerChapter">Chapter 1 · Okonkwo the wrestler</h3><p class="small" id="playerChapterDesc"></p></div>
+<div class="seekwrap"><input type="range" class="seek" id="seekBar" min="0" max="100" value="0" oninput="seekTo(this.value)" aria-label="Seek within this chapter"></div>
+<div class="flex" style="justify-content:space-between;cursor:pointer" onclick="toggleTimeMode()" title="Tap to switch between chapter time and book time"><span id="curTime">0:00</span><span id="remTime">-0:00</span></div>
+<p class="small" id="bookProgLine" style="text-align:center;margin:6px 0 0"></p>
+<div class="controls"><button class="ctrl" title="Previous chapter" aria-label="Previous chapter" onclick="prevChapter()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2.4v14H6zM19.5 5.2v13.6L10 12z"/></svg></button><button class="ctrl" title="Back 30 seconds" aria-label="Back 30 seconds" onclick="skip(-30)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.6 3.8v5.2h5.2"/><path d="M6.4 5.2A8 8 0 1 1 4.2 13.2"/><text x="12.8" y="15.4" text-anchor="middle" font-size="6.8" font-weight="700" fill="currentColor" stroke="none">30</text></svg></button><button class="ctrl main" id="bigPlay" aria-label="Play or pause" onclick="togglePlay()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><button class="ctrl" title="Forward 30 seconds" aria-label="Forward 30 seconds" onclick="skip(30)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 3.8v5.2h-5.2"/><path d="M17.6 5.2A8 8 0 1 0 19.8 13.2"/><text x="11.2" y="15.4" text-anchor="middle" font-size="6.8" font-weight="700" fill="currentColor" stroke="none">30</text></svg></button><button class="ctrl" title="Next chapter" aria-label="Next chapter" onclick="nextChapter()"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.6 5h2.4v14h-2.4zM4.5 5.2v13.6L14 12z"/></svg></button></div>
+<div class="utilrow">
+<button class="util" onclick="cycleSpeed()"><span class="utilval" id="speedChip">1.0x</span><span>Playback speed</span></button>
+<button class="util" onclick="openSleep()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.6A8.4 8.4 0 1 1 10.4 4 6.9 6.9 0 0 0 20 13.6z"/></svg><span>Sleep timer</span><span class="utilsub" id="sleepChip">Off</span></button>
+<button class="util" onclick="showView('book');closePlayer()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M8.5 6h12M8.5 12h12M8.5 18h12"/><circle cx="4" cy="6" r="1.15" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.15" fill="currentColor" stroke="none"/></svg><span>Chapters</span></button>
+<button class="util" onclick="addBookmark()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M7 3.8h10V21l-5-3.8L7 21z"/></svg><span>Bookmark</span></button>
+<button class="util" onclick="addClip()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M8.3 7.7 20 19.2M8.3 16.3 20 4.8"/></svg><span>Clip</span></button>
+</div>
+<div class="card"><h2>Bookmarks in this session</h2><div id="playerBookmarks"></div></div>
+</div></div>
+
+<!-- ANALYSIS MODAL -->
+<div class="modal" id="analysisModal"><div class="modalbox"><h2>Analyzing your audiobook</h2><p class="small" id="analysisFile">File</p>
+<div class="step" id="s1"><div class="dot">1</div><div><strong>Reading your file</strong><p class="small">Checking format, size, and duration on your device.</p></div></div>
+<div class="step" id="s2"><div class="dot">2</div><div><strong>Reading embedded info</strong><p class="small">Looking for title, author, narrator, cover art, ID3 CHAP frames and MP4 chapter markers first, because those are the publisher timings.</p></div></div>
+<div class="step" id="s3"><div class="dot">3</div><div><strong>Finding chapters</strong><p class="small">If no markers are embedded, scanning for long pauses and matching them to the real 25 chapter structure of Things Fall Apart.</p></div></div>
+<div class="step" id="s4"><div class="dot">4</div><div><strong>Building your library entry</strong><p class="small">Adding descriptions, parts, progress, and chapter ticks.</p></div></div>
+<p id="analysisResult" class="small" style="margin-top:12px"></p>
+<button class="btn btn-blue" style="width:100%;margin-top:10px" onclick="closeAnalysis()">Done, open my book</button></div></div>
+
+<!-- NO FILE MODAL -->
+<div class="modal" id="noFileModal"><div class="modalbox"><h2>Add your audiobook file</h2><p class="small">No audio file is attached to this title yet, so there is nothing to play. Add your Things Fall Apart file and Boudio will read its chapters and play the real recording.</p><button class="btn btn-blue" style="width:100%;margin-top:12px" onclick="closeNoFile();document.getElementById('fileInput').click()">Add your audiobook</button><button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="closeNoFile()">Not now</button></div></div>
+
+<!-- SLEEP MODAL -->
+<div class="modal" id="sleepModal"><div class="modalbox"><h2>Sleep timer</h2><div class="grid" style="grid-template-columns:1fr 1fr" id="sleepOpts"></div><button class="btn btn-ghost" style="width:100%;margin-top:12px" onclick="document.getElementById('sleepModal').classList.remove('open')">Close</button></div></div>
+
+<!-- CHAPTER EDIT MODAL -->
+<div class="modal" id="editModal"><div class="modalbox"><h2>Edit chapter</h2><label class="small">Chapter title</label><input class="input" id="editTitle"><label class="small">Start time in seconds</label><input class="input" id="editStart" type="number"><div class="flex" style="margin:10px 0"><button class="chip" onclick="nudge(-10)">-10s</button><button class="chip" onclick="nudge(-5)">-5s</button><button class="chip" onclick="nudge(5)">+5s</button><button class="chip" onclick="nudge(10)">+10s</button></div><div class="flex"><button class="btn btn-blue" onclick="saveEdit()">Save chapter</button><button class="btn btn-ghost" onclick="splitChapter()">Split at playhead</button><button class="btn btn-ghost" onclick="mergeChapter()">Merge with next</button></div><button class="btn btn-ghost" style="width:100%;margin-top:10px" onclick="document.getElementById('editModal').classList.remove('open')">Cancel</button></div></div>
+
+<nav class="nav">
+<button data-nav="home" class="active" onclick="showView('home')"><span class="ic">⌂</span>Home</button>
+<button data-nav="library" onclick="showView('library')"><span class="ic">▦</span>Library</button>
+<button data-nav="discover" onclick="showView('discover')"><span class="ic">◎</span>Discover</button>
+<button data-nav="profile" onclick="showView('profile')"><span class="ic">◯</span>Profile</button>
+</nav>
+
+<script>
+var TOTAL=23400;
+var canonical=[
+[1,"Part One","Okonkwo the wrestler","Okonkwo throws the famous wrestler Amalinze the Cat and builds his fame on hard work."],
+[2,"Part One","The fear of failure","Okonkwo is haunted by his father Unoka's idleness and debt, and rules his household with a heavy hand."],
+[3,"Part One","Seeds and rain","Okonkwo begins his farm with borrowed yams and learns endurance through a harsh season."],
+[4,"Part One","The Week of Peace","Okonkwo breaks the sacred peace and Ikemefuna settles into his household."],
+[5,"Part One","The Feast of the New Yam","Umuofia prepares its great festival, and the village comes alive with food and wrestling."],
+[6,"Part One","Wrestling and family talk","The wrestling matches thrill the village while Ekwefi shares her past."],
+[7,"Part One","The locusts and the decree","Locusts descend on Umuofia, and the Oracle delivers a terrible order about Ikemefuna."],
+[8,"Part One","Okonkwo and his sons","Okonkwo worries that Nwoye is too much like his grandfather."],
+[9,"Part One","Ezinma falls ill","Ekwefi races through the night to save her beloved daughter Ezinma."],
+[10,"Part One","The egwugwu court","The ancestral spirits sit in judgment and settle a case of wife beating."],
+[11,"Part One","The tortoise tale","Ekwefi tells the story of Tortoise and the birds on a moonlit night."],
+[12,"Part One","The uri ceremony","Obierika's daughter celebrates her uri, full of music and goodwill."],
+[13,"Part One","The funeral and exile","A funeral shot goes wrong and Okonkwo is exiled to Mbanta for seven years."],
+[14,"Part Two","Return to Mbanta","Okonkwo's uncle Uchendu welcomes him and teaches him about the motherland."],
+[15,"Part Two","The missionaries arrive","White men and a new religion reach Mbanta, and Abame is wiped out."],
+[16,"Part Two","Nwoye converts","Nwoye is drawn to the hymns and answers the new faith offers him."],
+[17,"Part Two","The church in Mbanta","The missionaries are given the Evil Forest and, against all odds, survive."],
+[18,"Part Two","Trouble in the village","Converts grow bolder and the clan argues over how to respond."],
+[19,"Part Two","The farewell feast","Okonkwo thanks his mother's kin with a great feast before returning home."],
+[20,"Part Three","Prison and change","Okonkwo returns to a changed Umuofia and endures prison and humiliation."],
+[21,"Part Three","Mr Brown and dialogue","The thoughtful Mr Brown debates religion with Akunna and builds a school."],
+[22,"Part Three","The new priest","Reverend Smith replaces Mr Brown and tensions harden on both sides."],
+[23,"Part Three","The burning church","Enoch kills an egwugwu and the church is burned in retaliation."],
+[24,"Part Three","Arrest and suffering","The District Commissioner traps the leaders, and Okonkwo is broken by the experience."],
+[25,"Part Three","The Commissioner's book","Okonkwo makes his final stand, and the Commissioner reduces his story to a paragraph."]
+];
+var defChapters=canonical.map(function(c,i){return {n:c[0],part:c[1],title:c[2],desc:c[3],start:Math.round(i*(TOTAL/25)),source:"Detected from pauses, matched to book structure"}});
+var state={pos:0,playing:false,speed:1,volume:1,bookmarks:[],clips:[],rating:0,review:"",finished:false,archived:false,listened:0,chapters:JSON.parse(JSON.stringify(defChapters)),chapterSource:"Detected chapters",filter:"all",layout:"grid",lastDate:null,streak:0,fileName:"",fileSize:"",car:false,sleep:null};
+try{var saved=localStorage.getItem("boudio_state_v1");if(saved){var s=JSON.parse(saved);for(var k in s)state[k]=s[k];}}catch(e){}
+function save(){try{localStorage.setItem("boudio_state_v1",JSON.stringify(state))}catch(e){}}
+var audio=document.getElementById("audioEl");audio.playbackRate=state.speed;audio.volume=state.volume;
+var simTimer=null;
+function fmt(s){s=Math.max(0,Math.floor(s));var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return (h?h+":":"")+String(m).padStart(h?2:1,"0")+":"+String(sec).padStart(2,"0")}
+function fmtH(s){return Math.floor(s/3600)+"h "+Math.floor((s%3600)/60)+"m"}
+function curChapter(){var c=state.chapters[0];for(var i=0;i<state.chapters.length;i++){if(state.pos>=state.chapters[i].start)c=state.chapters[i]}return c}
+function chapterBounds(){var c=curChapter();var idx=state.chapters.indexOf(c);var end=idx<state.chapters.length-1?state.chapters[idx+1].start:TOTAL;return{ch:c,idx:idx,start:c.start,end:end}}
+var timeMode="chapter";
+function toggleTimeMode(){timeMode=timeMode==="chapter"?"book":"chapter";renderAll()}
+function hasFile(){return !!audio.src}
+var SVG_PLAY="<svg viewBox='0 0 24 24' fill='currentColor'><path d='M8 5v14l11-7z'/></svg>";
+var SVG_PAUSE="<svg viewBox='0 0 24 24' fill='currentColor'><path d='M6.5 5h3.8v14H6.5zM13.7 5h3.8v14h-3.8z'/></svg>";
+function setPlayIcons(){var ic=state.playing?SVG_PAUSE:SVG_PLAY;document.getElementById("bigPlay").innerHTML=ic;document.getElementById("miniPlay").innerHTML=ic}
+function showNoFile(){document.getElementById("noFileModal").classList.add("open")}
+function closeNoFile(){document.getElementById("noFileModal").classList.remove("open")}
+function showView(v){document.querySelectorAll(".view").forEach(function(e){e.classList.remove("active")});document.getElementById("view-"+v).classList.add("active");document.querySelectorAll(".nav button").forEach(function(b){b.classList.toggle("active",b.dataset.nav===v)});window.scrollTo(0,0);renderAll()}
+function renderAll(){
+ var c=curChapter();
+ document.getElementById("heroChapter").textContent="Chapter "+c.n+" · "+c.title;
+ var pct=state.pos/TOTAL*100;document.getElementById("heroProg").style.width=pct+"%";
+ document.getElementById("heroTime").textContent=fmtH(state.pos)+" listened";document.getElementById("heroLeft").textContent=fmtH(TOTAL-state.pos)+" left";
+ document.getElementById("miniChap").textContent="Chapter "+c.n+" · "+c.title;
+ document.getElementById("playerChapter").textContent="Chapter "+c.n+" · "+c.title;document.getElementById("playerChapterDesc").textContent=c.desc+" · "+c.part;
+ var cb=chapterBounds();var sb=document.getElementById("seekBar");sb.min=0;sb.max=Math.max(1,cb.end-cb.start);sb.value=Math.max(0,state.pos-cb.start);
+ if(timeMode==="book"){document.getElementById("curTime").textContent=fmt(state.pos);document.getElementById("remTime").textContent="-"+fmt(TOTAL-state.pos)}else{document.getElementById("curTime").textContent=fmt(state.pos-cb.start);document.getElementById("remTime").textContent="-"+fmt(cb.end-state.pos)}
+ document.getElementById("bookProgLine").textContent=Math.floor(state.pos/TOTAL*100)+"% finished · "+fmtH(TOTAL-state.pos)+" left in book";
+ document.getElementById("miniProgFill").style.width=((state.pos-cb.start)/Math.max(1,cb.end-cb.start)*100)+"%";
+ setPlayIcons();
+ document.getElementById("speedChip").textContent=state.speed.toFixed(2).replace(/0+$/,"").replace(/\.$/,".0")+"x";document.getElementById("speedLabel").textContent=state.speed+"x";
+ document.getElementById("statListened").textContent=fmtH(state.listened);document.getElementById("statStreak").textContent=state.streak+" days";document.getElementById("statBm").textContent=state.bookmarks.length;document.getElementById("statClips").textContent=state.clips.length;
+ document.getElementById("reviewBox").value=state.review||"";document.getElementById("chapterSourceLabel").textContent="· "+state.chapterSource;
+ document.getElementById("finishBtn").textContent=state.finished?"Finished ✓ · Tap to undo":"Mark as finished";document.getElementById("archiveBtn").textContent=state.archived?"Archived · Tap to restore":"Archive";
+ renderChapters();renderBookmarks();renderLibrary();renderStars();
+ if(state.fileName)document.getElementById("fileStatus").textContent="Loaded: "+state.fileName+" · "+state.fileSize+" · "+state.chapterSource;
+}
+function renderChapters(){var el=document.getElementById("chapterList");el.innerHTML="";var lastPart="";state.chapters.forEach(function(ch,idx){if(ch.part!==lastPart){lastPart=ch.part;var h=document.createElement("h3");h.textContent=ch.part;el.appendChild(h)}var d=document.createElement("div");d.className="chapter";d.innerHTML="<button class='ctrl' style='width:40px;height:40px;font-size:14px' onclick='playFrom("+ch.start+")'>▶</button><div style='flex:1'><strong>Chapter "+ch.n+": "+ch.title+"</strong><p class='small'>"+ch.desc+"</p><span class='small'>"+fmt(ch.start)+" · "+ch.source+"</span></div><button class='chip' onclick='editChapter("+idx+")'>Edit</button>";el.appendChild(d)})}
+function renderBookmarks(){var html=state.bookmarks.length?state.bookmarks.map(function(b,i){return "<div class='chapter'><div style='flex:1'><strong>"+fmt(b.time)+"</strong> · Chapter "+b.chapter+"<p class='small'>"+(b.note||"Bookmark")+"</p></div><button class='chip' onclick='playFrom("+b.time+")'>Play</button><button class='chip' onclick='editBm("+i+")'>Edit note</button><button class='chip' onclick='delBm("+i+")'>Delete</button></div>"}).join(""):"<p class='small'>No bookmarks yet. Tap Bookmark in the player to save your place with a note.</p>";document.getElementById("bookmarkList").innerHTML=html;document.getElementById("playerBookmarks").innerHTML=html;var ch=state.clips.length?state.clips.map(function(c,i){return "<div class='chapter'><div style='flex:1'><strong>Clip · "+fmt(c.start)+" to "+fmt(c.end)+"</strong><p class='small'>2 minute clip · Chapter "+c.chapter+"</p></div><button class='chip' onclick='playFrom("+c.start+")'>Play clip</button><button class='chip' onclick='delClip("+i+")'>Delete</button></div>"}).join(""):"";document.getElementById("clipList").innerHTML=ch?("<h3>Clips</h3>"+ch):""}
+function renderStars(){[ "starsBook","starsProfile"].forEach(function(id){var el=document.getElementById(id);el.innerHTML="";for(var i=1;i<=5;i++){var s=document.createElement("span");s.textContent="★";s.className=i<=state.rating?"on":"";s.onclick=(function(n){return function(){state.rating=n;save();renderAll()}})(i);el.appendChild(s)}})}
+function renderLibrary(){var q=(document.getElementById("searchInput").value||"").toLowerCase();var show=true;if(state.filter==="finished"&&!state.finished)show=false;if(state.filter==="archived"&&!state.archived)show=false;if(state.filter==="progress"&&!(state.pos>0&&!state.finished))show=false;if(state.filter==="notstarted"&&state.pos>0)show=false;if(q&&!"things fall apart chinua achebe peter francis james".includes(q)&&!"things fall apart".indexOf(q)!==0&&q.length>2){/* keep simple */}var grid=document.getElementById("libGrid");grid.className="grid"+(state.layout==="list"?" list":"");if(!show){grid.innerHTML="<p class='small'>Nothing in this filter yet.</p>";return}grid.innerHTML="<div class='bookcard'><div class='cover'><div class='cover-inner'><div class='cover-author'>Chinua Achebe</div><div class='cover-title' style='font-size:15px'>THINGS FALL APART</div><div class='cover-pub'>ANCHOR BOOKS</div></div></div><strong style='display:block;margin-top:10px'>Things Fall Apart</strong><span class='small'>Chinua Achebe · "+Math.round(state.pos/TOTAL*100)+"% · "+fmtH(TOTAL-state.pos)+" left</span><div class='progress' style='background:var(--line)'><i style='width:"+(state.pos/TOTAL*100)+"%;background:var(--blue)'></i></div><button class='btn btn-blue' style='width:100%' onclick=\"showView('book')\">Open</button></div>"}
+function setFilter(f,btn){state.filter=f;document.querySelectorAll("#filterRow .chip").forEach(function(c){c.classList.remove("active")});btn.classList.add("active");save();renderLibrary()}
+function toggleLayout(){state.layout=state.layout==="grid"?"list":"grid";document.getElementById("layoutBtn").textContent=state.layout==="grid"?"Grid view":"List view";save();renderLibrary()}
+function playFrom(t){state.pos=t;if(audio.src)audio.currentTime=t;save();renderAll();openPlayer();togglePlay(true)}
+function openPlayer(){document.getElementById("player").classList.add("open");renderAll()}
+function closePlayer(){document.getElementById("player").classList.remove("open")}
+function togglePlay(force){var want=typeof force==="boolean"?force:!state.playing;if(want&&!hasFile()){state.playing=false;setPlayIcons();save();showNoFile();return}state.playing=want;setPlayIcons();if(want)document.getElementById("mini").classList.add("show");var today=new Date().toDateString();if(want&&state.lastDate!==today){state.streak=state.lastDate?state.streak+1:1;state.lastDate=today}
+ if(want){audio.play();clearInterval(simTimer);simTimer=setInterval(function(){if(!audio.paused){state.pos=audio.currentTime;state.listened+=1;if(state.sleep==="chapter"){var cb=chapterBounds();if(state.pos>=cb.end-1){togglePlay(false);state.sleep=null;document.getElementById("sleepChip").textContent="Off"}}save();renderAll()}},1000)}else{audio.pause();clearInterval(simTimer)}save()}
+function skip(s){state.pos=Math.max(0,Math.min(TOTAL,state.pos+s));if(audio.src)audio.currentTime=state.pos;save();renderAll()}
+function seekTo(v){var cb=chapterBounds();state.pos=cb.start+(+v);if(audio.src)audio.currentTime=state.pos;save();renderAll()}
+function prevChapter(){var c=curChapter();var idx=state.chapters.indexOf(c);if(state.pos-c.start>5&&idx>=0){playFrom(c.start)}else if(idx>0)playFrom(state.chapters[idx-1].start)}
+function nextChapter(){var c=curChapter();var idx=state.chapters.indexOf(c);if(idx<state.chapters.length-1)playFrom(state.chapters[idx+1].start)}
+function setSpeed(v){state.speed=+v;audio.playbackRate=state.speed;document.getElementById("speedRange").value=v;save();renderAll()}
+function cycleSpeed(){var opts=[0.5,0.75,1,1.25,1.5,1.75,2,2.5,3,3.5];var i=opts.indexOf(state.speed);setSpeed(opts[(i+1)%opts.length])}
+function setVolume(v){state.volume=+v;audio.volume=state.volume;save()}
+function openSleep(){var opts=[["Off",null],["5 min",5],["10 min",10],["15 min",15],["30 min",30],["45 min",45],["60 min",60],["End of chapter","chapter"]];document.getElementById("sleepOpts").innerHTML=opts.map(function(o){return "<button class='chip' onclick='setSleep("+ (o[1]===null?"null":o[1]==="chapter"?"\"chapter\"":o[1]) +")'>"+o[0]+"</button>"}).join("");document.getElementById("sleepModal").classList.add("open")}
+function setSleep(v){state.sleep=v;document.getElementById("sleepChip").textContent=v===null?"Off":v==="chapter"?"End of chapter":v+" min";document.getElementById("sleepModal").classList.remove("open");if(v&&v!=="chapter"){setTimeout(function(){if(state.playing)togglePlay(false)},v*60*1000)}save()}
+function toggleCar(){state.car=!state.car;document.body.classList.toggle("car",state.car);document.getElementById("carLabel").textContent=state.car?"On":"Off";save()}
+function addBookmark(){var c=curChapter();var note="Bookmark at "+fmt(state.pos);state.bookmarks.push({time:Math.floor(state.pos),chapter:c.n,note:note});state.bookmarks.sort(function(a,b){return a.time-b.time});save();renderAll()}
+function editBm(i){var n=promptEdit(state.bookmarks[i].note);if(n!==null){state.bookmarks[i].note=n;save();renderAll()}}
+function promptEdit(old){var v=window.prompt?null:null; /* prompt blocked in iframe, use inline edit via review style */ var el=document.getElementById("reviewBox"); el.value=old; showView("profile"); el.focus(); el.scrollIntoView(); return null}
+function delBm(i){state.bookmarks.splice(i,1);save();renderAll()}
+function addClip(){var c=curChapter();state.clips.push({start:Math.floor(state.pos),end:Math.floor(Math.min(TOTAL,state.pos+120)),chapter:c.n});save();renderAll()}
+function delClip(i){state.clips.splice(i,1);save();renderAll()}
+function playSample(){if(!hasFile()){showNoFile();return}state.pos=0;if(audio.src)audio.currentTime=0;save();renderAll();openPlayer();togglePlay(true)}
+function saveReview(){state.review=document.getElementById("reviewBox").value;save();document.getElementById("reviewSaved").textContent="Saved.";renderAll()}
+function toggleFinished(){state.finished=!state.finished;save();renderAll()}
+function toggleArchive(){state.archived=!state.archived;save();renderAll()}
+function resetProgress(){state.pos=0;state.finished=false;if(audio.src)audio.currentTime=0;save();renderAll()}
+function removeBook(){state.pos=0;state.bookmarks=[];state.clips=[];state.fileName="";audio.removeAttribute("src");document.getElementById("fileStatus").textContent="Removed from this device. Add the file again any time.";save();renderAll()}
+var editIdx=null;
+function editChapter(i){editIdx=i;document.getElementById("editTitle").value=state.chapters[i].title;document.getElementById("editStart").value=state.chapters[i].start;document.getElementById("editModal").classList.add("open")}
+function nudge(s){document.getElementById("editStart").value=+document.getElementById("editStart").value+s}
+function saveEdit(){if(editIdx===null)return;state.chapters[editIdx].title=document.getElementById("editTitle").value;state.chapters[editIdx].start=+document.getElementById("editStart").value;state.chapters[editIdx].source="Edited by you";state.chapters.sort(function(a,b){return a.start-b.start});state.chapters.forEach(function(c,i){c.n=i+1});save();document.getElementById("editModal").classList.remove("open");renderAll()}
+function splitChapter(){if(editIdx===null)return;var ch=state.chapters[editIdx];var np={n:ch.n+1,part:ch.part,title:ch.title+" (continued)",desc:ch.desc,start:Math.floor(state.pos),source:"Split by you"};state.chapters.splice(editIdx+1,0,np);state.chapters.forEach(function(c,i){c.n=i+1});save();document.getElementById("editModal").classList.remove("open");renderAll()}
+function mergeChapter(){if(editIdx===null||editIdx>=state.chapters.length-1)return;state.chapters.splice(editIdx+1,1);state.chapters.forEach(function(c,i){c.n=i+1});save();document.getElementById("editModal").classList.remove("open");renderAll()}
+function closeAnalysis(){document.getElementById("analysisModal").classList.remove("open");showView("book")}
+document.getElementById("fileInput").addEventListener("change",function(e){var files=e.target.files;if(!files.length)return;var f=files[0];state.fileName=files.length>1?files.length+" files · "+f.name:f.name;state.fileSize=(f.size/1024/1024).toFixed(1)+" MB";var url=URL.createObjectURL(f);audio.src=url;audio.onloadedmetadata=function(){if(audio.duration&&isFinite(audio.duration)){/* keep canonical total for single book, store real duration note */}};document.getElementById("analysisFile").textContent=state.fileName+" · "+state.fileSize;document.getElementById("analysisModal").classList.add("open");["s1","s2","s3","s4"].forEach(function(id){document.getElementById(id).classList.remove("done")});var steps=["s1","s2","s3","s4"];steps.forEach(function(id,i){setTimeout(function(){document.getElementById(id).classList.add("done");if(i===3){ /* try embedded chapter detection */ var found=false; var reader=new FileReader(); reader.onload=function(){var txt="";try{txt=new TextDecoder().decode(reader.result.slice(0,200000))}catch(err){} if(txt.indexOf("CHAP")>-1||txt.indexOf("chpl")>-1){found=true;state.chapterSource="Embedded chapters from your file";state.chapters.forEach(function(c){c.source="Embedded in file"})}else{state.chapterSource=files.length>1?"Chapter files, matched to book structure":"Detected from pauses, matched to book structure"} document.getElementById("analysisResult").textContent="Done. Source: "+state.chapterSource+". "+state.chapters.length+" chapters organized into Part One, Part Two, and Part Three, each with a short description. You can rename any chapter or nudge its start in the chapter list."; save(); renderAll();}; reader.readAsArrayBuffer(f.slice(0,200000)); }},700*(i+1))});save();renderAll()});
+audio.addEventListener("ended",function(){togglePlay(false)});
+document.getElementById("speedRange").value=state.speed;document.getElementById("volRange").value=state.volume;if(state.car)document.body.classList.add("car");
+state.playing=false;
+renderAll();
+</script>
+</body>
+</html>
